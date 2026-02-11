@@ -1,119 +1,131 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>REZ OS V1.1</title>
-<link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600&display=swap" rel="stylesheet">
+<title>REZ OS V1.3</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
-body{overflow:hidden;height:100vh;background:#0f172a;color:white}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter}
+body{
+height:100vh;
+overflow:hidden;
+background:linear-gradient(135deg,#2563eb,#1e3a8a);
+background-size:400% 400%;
+animation:bg 20s infinite alternate;
+color:white;
+}
+@keyframes bg{0%{background-position:left}100%{background-position:right}}
 
-/* BOOT SCREEN */
+/* BOOT */
 #boot{
-position:fixed;inset:0;
-background:linear-gradient(135deg,#0f172a,#1e293b);
-display:flex;align-items:center;justify-content:center;
-flex-direction:column;
+position:fixed;inset:0;background:black;
+display:flex;flex-direction:column;
+align-items:center;justify-content:center;
 z-index:9999;
 }
 .loader{
-width:60px;height:60px;
-border:5px solid #334155;
-border-top:5px solid #38bdf8;
-border-radius:50%;
+width:60px;height:60px;border:5px solid #333;
+border-top:5px solid #3b82f6;border-radius:50%;
 animation:spin 1s linear infinite;
 margin-top:20px;
 }
 @keyframes spin{100%{transform:rotate(360deg)}}
 
-/* LOGIN */
-#login{
-position:fixed;inset:0;
-background:linear-gradient(135deg,#1e293b,#0f172a);
-display:none;
-align-items:center;justify-content:center;
-flex-direction:column;
-}
-#login input{
-padding:10px;border:none;border-radius:10px;
-margin-top:10px;
-}
-#login button{
-margin-top:10px;padding:10px 20px;
-border:none;border-radius:10px;
-background:#38bdf8;color:black;font-weight:bold;
-cursor:pointer;
-}
-
 /* DESKTOP */
-#desktop{
-display:none;
-position:absolute;inset:0;
-background:linear-gradient(135deg,#1e3a8a,#0f172a);
-background-size:400% 400%;
-animation:bg 15s infinite alternate;
-}
-@keyframes bg{
-0%{background-position:left}
-100%{background-position:right}
-}
-
-.icon{
-width:80px;text-align:center;margin:20px;
-cursor:pointer;
-}
-.icon:hover{transform:scale(1.1)}
-.icons{display:flex;flex-direction:column}
+.desktop{position:absolute;inset:0}
 
 /* TASKBAR */
 .taskbar{
-position:absolute;bottom:0;left:0;right:0;
-height:55px;background:rgba(0,0,0,0.4);
-backdrop-filter:blur(20px);
-display:flex;align-items:center;justify-content:center;
-gap:20px;
+position:absolute;bottom:10px;left:50%;
+transform:translateX(-50%);
+width:650px;height:60px;
+background:rgba(255,255,255,0.15);
+backdrop-filter:blur(25px);
+border-radius:20px;
+display:flex;align-items:center;
+justify-content:center;gap:25px;
 }
-.start{cursor:pointer;font-size:22px}
-.clock{position:absolute;right:20px}
+.taskbar img{width:32px;cursor:pointer}
+.clock{
+position:absolute;right:20px;
+font-size:13px;text-align:right;
+}
 
 /* START MENU */
-#startMenu{
-position:absolute;bottom:70px;left:50%;
+.start{
+position:absolute;bottom:85px;left:50%;
 transform:translateX(-50%) scale(0);
-width:300px;height:350px;
-background:rgba(0,0,0,0.6);
-backdrop-filter:blur(20px);
+width:500px;height:480px;
+background:rgba(30,30,30,0.95);
 border-radius:20px;padding:20px;
-transition:0.3s;
+transition:0.3s;overflow:auto;
 }
-#startMenu.active{transform:translateX(-50%) scale(1)}
-.app{padding:10px;background:rgba(255,255,255,0.1);
-margin-bottom:10px;border-radius:10px;cursor:pointer}
+.start.active{transform:translateX(-50%) scale(1)}
+.search{
+width:100%;padding:10px;border:none;
+border-radius:10px;margin-bottom:20px;
+}
+.grid{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:20px;
+}
+.app{text-align:center;cursor:pointer}
+.app img{width:50px}
 
 /* WINDOWS */
 .window{
-position:absolute;top:120px;left:200px;
-width:500px;height:350px;
-background:rgba(0,0,0,0.6);
-backdrop-filter:blur(20px);
-border-radius:15px;
-display:none;
-flex-direction:column;
+position:absolute;top:100px;left:200px;
+width:800px;height:500px;
+background:#111;border-radius:15px;
+display:none;flex-direction:column;
+overflow:hidden;
 }
 .header{
-height:40px;background:rgba(255,255,255,0.1);
-display:flex;align-items:center;justify-content:space-between;
-padding:0 10px;cursor:move;
+height:45px;background:#202020;
+display:flex;align-items:center;
+justify-content:space-between;
+padding:0 15px;cursor:move;
 }
-.controls span{
-margin-left:10px;cursor:pointer;
-}
+.controls span{margin-left:10px;cursor:pointer}
 .content{flex:1;padding:15px;overflow:auto}
 
-/* TERMINAL */
-#terminalOutput{
-font-family:monospace;font-size:14px;
+/* NOTIFICATION */
+#notif{
+position:absolute;right:-350px;top:0;
+width:350px;height:100%;
+background:rgba(20,20,20,0.95);
+transition:0.3s;padding:20px;
+}
+#notif.active{right:0}
+
+/* QUICK PANEL */
+#quick{
+position:absolute;right:20px;bottom:80px;
+width:250px;background:#222;
+padding:15px;border-radius:15px;
+display:none;
+}
+.toggle{
+display:flex;justify-content:space-between;
+margin-bottom:10px;
+}
+
+/* CONTEXT MENU */
+.context{
+position:absolute;background:#222;
+padding:10px;border-radius:10px;
+display:none;flex-direction:column;
+}
+.context div{padding:8px;cursor:pointer}
+.context div:hover{background:#333}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+.window{width:95%;left:2.5%}
+.taskbar{width:95%}
+.start{width:95%}
 }
 </style>
 </head>
@@ -121,122 +133,131 @@ font-family:monospace;font-size:14px;
 
 <!-- BOOT -->
 <div id="boot">
-<h1>REZ OS V1.1</h1>
+<h1>REZ OS V1.3</h1>
 <div class="loader"></div>
 </div>
 
-<!-- LOGIN -->
-<div id="login">
-<h2>Welcome Wael</h2>
-<input type="password" id="pass" placeholder="Enter Password">
-<button onclick="enter()">Login</button>
+<div class="desktop" id="desktop">
+
+<!-- START -->
+<div class="start" id="startMenu">
+<input class="search" placeholder="Search REZ OS">
+<div class="grid">
+<div class="app" onclick="openWin('files')">
+<img src="https://cdn-icons-png.flaticon.com/512/716/716784.png"><div>Files</div>
+</div>
+<div class="app" onclick="openWin('browser')">
+<img src="https://cdn-icons-png.flaticon.com/512/732/732200.png"><div>Edge</div>
+</div>
+<div class="app" onclick="openWin('settings')">
+<img src="https://cdn-icons-png.flaticon.com/512/3524/3524659.png"><div>Settings</div>
+</div>
+</div>
 </div>
 
-<!-- DESKTOP -->
-<div id="desktop">
-<div class="icons">
-<div class="icon" onclick="openWin('about')">💻<br>About</div>
-<div class="icon" onclick="openWin('files')">📁<br>Files</div>
-<div class="icon" onclick="openWin('terminal')">🖥<br>Terminal</div>
-</div>
-
+<!-- TASKBAR -->
 <div class="taskbar">
-<div class="start" onclick="toggleStart()">⊞</div>
-REZ OS V1.1
+<img src="https://cdn-icons-png.flaticon.com/512/1828/1828859.png" onclick="toggleStart()">
+<img src="https://cdn-icons-png.flaticon.com/512/716/716784.png" onclick="openWin('files')">
+<img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" onclick="openWin('browser')">
+<img src="https://cdn-icons-png.flaticon.com/512/3524/3524659.png" onclick="openWin('settings')">
 <div class="clock" id="clock"></div>
 </div>
 
-<div id="startMenu">
-<div class="app" onclick="openWin('about')">About</div>
-<div class="app" onclick="openWin('files')">Files</div>
-<div class="app" onclick="openWin('terminal')">Terminal</div>
+<!-- QUICK -->
+<div id="quick">
+<div class="toggle">WiFi <span>On</span></div>
+<div class="toggle">Bluetooth <span>Off</span></div>
+<div class="toggle">Volume <span>75%</span></div>
 </div>
+
+<!-- NOTIFICATION -->
+<div id="notif">
+<h3>Notifications</h3>
+<p>No new notifications</p>
+</div>
+
+<!-- CONTEXT -->
+<div class="context" id="context">
+<div onclick="alert('Refresh')">Refresh</div>
+<div onclick="toggleTheme()">Toggle Theme</div>
+</div>
+
 </div>
 
 <!-- WINDOWS -->
 
-<div class="window" id="about">
-<div class="header">About<div class="controls">
-<span onclick="minWin('about')">—</span>
-<span onclick="maxWin('about')">⬜</span>
-<span onclick="closeWin('about')">✕</span>
-</div></div>
-<div class="content">
-<h2>REZ OS V1.1</h2>
-<p>Developer: Wael</p>
-<p>Year: 2026</p>
-<p>Modern Glass UI System</p>
-</div>
-</div>
-
 <div class="window" id="files">
-<div class="header">File Explorer<div class="controls">
-<span onclick="minWin('files')">—</span>
-<span onclick="maxWin('files')">⬜</span>
+<div class="header">File Explorer
+<div class="controls">
+<span onclick="snapLeft('files')">🡸</span>
+<span onclick="snapRight('files')">🡺</span>
 <span onclick="closeWin('files')">✕</span>
 </div></div>
 <div class="content">
 📁 Documents<br>
 📁 Downloads<br>
-📄 rez_config.sys<br>
+📄 rez_system.sys
 </div>
 </div>
 
-<div class="window" id="terminal">
-<div class="header">Terminal<div class="controls">
-<span onclick="minWin('terminal')">—</span>
-<span onclick="maxWin('terminal')">⬜</span>
-<span onclick="closeWin('terminal')">✕</span>
+<div class="window" id="browser">
+<div class="header">Microsoft Edge
+<div class="controls">
+<span onclick="snapLeft('browser')">🡸</span>
+<span onclick="snapRight('browser')">🡺</span>
+<span onclick="closeWin('browser')">✕</span>
 </div></div>
 <div class="content">
-<div id="terminalOutput">REZ Terminal V1.1<br></div>
-<input type="text" id="cmd" style="width:100%;background:black;color:lime;border:none;padding:5px" placeholder="type command">
+<iframe src="https://example.com" style="width:100%;height:100%;border:none"></iframe>
+</div>
+</div>
+
+<div class="window" id="settings">
+<div class="header">Settings
+<div class="controls">
+<span onclick="closeWin('settings')">✕</span>
+</div></div>
+<div class="content">
+<h2>REZ OS V1.3</h2>
+<button onclick="toggleTheme()">Toggle Dark/Light</button>
 </div>
 </div>
 
 <script>
 
+let z=1;
+
 /* Boot */
-setTimeout(()=>{
-boot.style.display="none";
-login.style.display="flex";
-},2500)
+setTimeout(()=>boot.style.display="none",2500);
 
-/* Login */
-function enter(){
-if(pass.value==="1234"){
-login.style.display="none";
-desktop.style.display="block";
-}else{
-alert("Wrong password");
-}
-}
-
-/* Start Menu */
+/* Start */
 function toggleStart(){
 startMenu.classList.toggle("active");
 }
 
 /* Clock */
 function updateClock(){
-clock.innerText=new Date().toLocaleTimeString();
+let d=new Date();
+clock.innerHTML=d.toLocaleTimeString()+"<br>"+d.toLocaleDateString();
 }
 setInterval(updateClock,1000);updateClock();
 
 /* Windows */
-function openWin(id){document.getElementById(id).style.display="flex"}
-function closeWin(id){document.getElementById(id).style.display="none"}
-function minWin(id){document.getElementById(id).style.display="none"}
-function maxWin(id){
+function openWin(id){
 let w=document.getElementById(id);
-w.style.top="0";w.style.left="0";
-w.style.width="100%";w.style.height="100%";
+w.style.display="flex";
+w.style.zIndex=++z;
+}
+function closeWin(id){
+document.getElementById(id).style.display="none";
 }
 
 /* Drag */
 document.querySelectorAll(".window").forEach(win=>{
 let header=win.querySelector(".header");
 header.onmousedown=function(e){
+win.style.zIndex=++z;
 let offsetX=e.clientX-win.offsetLeft;
 let offsetY=e.clientY-win.offsetTop;
 document.onmousemove=function(e){
@@ -247,18 +268,39 @@ document.onmouseup=function(){document.onmousemove=null}
 }
 });
 
-/* Terminal */
-cmd.addEventListener("keydown",function(e){
-if(e.key==="Enter"){
-let output=document.getElementById("terminalOutput");
-let val=this.value;
-output.innerHTML+="<br>> "+val;
-if(val==="help") output.innerHTML+="<br>about, clear, version";
-if(val==="version") output.innerHTML+="<br>REZ OS V1.1";
-if(val==="clear") output.innerHTML="";
-this.value="";
+/* Snap */
+function snapLeft(id){
+let w=document.getElementById(id);
+w.style.left="0";
+w.style.top="0";
+w.style.width="50%";
+w.style.height="100%";
 }
+function snapRight(id){
+let w=document.getElementById(id);
+w.style.left="50%";
+w.style.top="0";
+w.style.width="50%";
+w.style.height="100%";
+}
+
+/* Theme */
+function toggleTheme(){
+if(document.body.style.background.includes("white")){
+document.body.style.background="linear-gradient(135deg,#2563eb,#1e3a8a)";
+}else{
+document.body.style.background="white";
+}
+}
+
+/* Context */
+desktop.addEventListener("contextmenu",function(e){
+e.preventDefault();
+context.style.display="flex";
+context.style.left=e.pageX+"px";
+context.style.top=e.pageY+"px";
 });
+document.addEventListener("click",()=>context.style.display="none");
 
 </script>
 </body>
