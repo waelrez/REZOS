@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>REZ OS V1.0</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+user-select:none;
+}
+
+body{
+height:100vh;
+overflow:hidden;
+background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460);
+background-size:400% 400%;
+animation:bgMove 15s infinite alternate;
+color:white;
+}
+
+@keyframes bgMove{
+0%{background-position:left;}
+100%{background-position:right;}
+}
+
+/* Desktop */
+.desktop{
+position:absolute;
+top:0;
+left:0;
+right:0;
+bottom:60px;
+padding:20px;
+display:flex;
+flex-direction:column;
+gap:20px;
+}
+
+/* Icons */
+.icon{
+width:90px;
+text-align:center;
+cursor:pointer;
+transition:0.3s;
+}
+
+.icon:hover{
+transform:scale(1.1);
+}
+
+.icon img{
+width:50px;
+}
+
+/* Taskbar */
+.taskbar{
+position:absolute;
+bottom:0;
+left:0;
+right:0;
+height:60px;
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(20px);
+display:flex;
+align-items:center;
+justify-content:center;
+gap:20px;
+border-top:1px solid rgba(255,255,255,0.2);
+}
+
+/* Start button */
+.start-btn{
+width:45px;
+height:45px;
+background:rgba(255,255,255,0.15);
+border-radius:12px;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+transition:0.3s;
+}
+
+.start-btn:hover{
+background:rgba(255,255,255,0.3);
+}
+
+/* Start menu */
+.start-menu{
+position:absolute;
+bottom:80px;
+left:50%;
+transform:translateX(-50%) scale(0);
+width:400px;
+height:450px;
+background:rgba(255,255,255,0.1);
+backdrop-filter:blur(30px);
+border-radius:20px;
+padding:20px;
+transition:0.3s;
+overflow:hidden;
+}
+
+.start-menu.active{
+transform:translateX(-50%) scale(1);
+}
+
+.start-menu h2{
+margin-bottom:20px;
+}
+
+.app{
+padding:10px;
+background:rgba(255,255,255,0.08);
+margin-bottom:10px;
+border-radius:10px;
+cursor:pointer;
+transition:0.3s;
+}
+
+.app:hover{
+background:rgba(255,255,255,0.2);
+}
+
+/* Window */
+.window{
+position:absolute;
+top:100px;
+left:150px;
+width:600px;
+height:400px;
+background:rgba(255,255,255,0.1);
+backdrop-filter:blur(25px);
+border-radius:15px;
+display:none;
+flex-direction:column;
+overflow:hidden;
+animation:fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn{
+from{opacity:0; transform:scale(0.9);}
+to{opacity:1; transform:scale(1);}
+}
+
+.window-header{
+height:40px;
+background:rgba(255,255,255,0.15);
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 15px;
+}
+
+.close{
+cursor:pointer;
+font-weight:bold;
+}
+
+.window-content{
+flex:1;
+padding:20px;
+overflow:auto;
+}
+
+/* Clock */
+.clock{
+position:absolute;
+right:20px;
+bottom:20px;
+font-size:14px;
+opacity:0.8;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="desktop">
+
+<div class="icon" onclick="openWindow('about')">
+<img src="https://cdn-icons-png.flaticon.com/512/1828/1828817.png">
+<div>About</div>
+</div>
+
+<div class="icon" onclick="openWindow('files')">
+<img src="https://cdn-icons-png.flaticon.com/512/716/716784.png">
+<div>Files</div>
+</div>
+
+<div class="icon" onclick="openWindow('settings')">
+<img src="https://cdn-icons-png.flaticon.com/512/3524/3524659.png">
+<div>Settings</div>
+</div>
+
+</div>
+
+<div class="taskbar">
+<div class="start-btn" onclick="toggleStart()">⊞</div>
+<div>REZ OS V1.0</div>
+</div>
+
+<div class="start-menu" id="startMenu">
+<h2>REZ OS V1.0</h2>
+<div class="app" onclick="openWindow('about')">About REZ OS</div>
+<div class="app" onclick="openWindow('files')">File Explorer</div>
+<div class="app" onclick="openWindow('settings')">Settings</div>
+</div>
+
+<!-- WINDOWS -->
+
+<div class="window" id="about">
+<div class="window-header">
+<div>About REZ OS</div>
+<div class="close" onclick="closeWindow('about')">X</div>
+</div>
+<div class="window-content">
+<h1>REZ OS V1.0</h1>
+<p>Official system created by Wael.</p>
+<p>Release Year: 2026</p>
+<p>Design inspired by modern operating systems.</p>
+<p>Glass UI • Animated • Modern Design</p>
+</div>
+</div>
+
+<div class="window" id="files">
+<div class="window-header">
+<div>File Explorer</div>
+<div class="close" onclick="closeWindow('files')">X</div>
+</div>
+<div class="window-content">
+<p>📁 Documents</p>
+<p>📁 Downloads</p>
+<p>📁 REZ Projects</p>
+<p>📄 system_config.rez</p>
+</div>
+</div>
+
+<div class="window" id="settings">
+<div class="window-header">
+<div>Settings</div>
+<div class="close" onclick="closeWindow('settings')">X</div>
+</div>
+<div class="window-content">
+<p>Theme: Dark Glass</p>
+<p>Version: 1.0</p>
+<p>Developer: Wael</p>
+</div>
+</div>
+
+<div class="clock" id="clock"></div>
+
+<script>
+function toggleStart(){
+document.getElementById("startMenu").classList.toggle("active");
+}
+
+function openWindow(id){
+document.getElementById(id).style.display="flex";
+}
+
+function closeWindow(id){
+document.getElementById(id).style.display="none";
+}
+
+function updateClock(){
+let now=new Date();
+document.getElementById("clock").innerHTML=
+now.toLocaleTimeString();
+}
+
+setInterval(updateClock,1000);
+updateClock();
+</script>
+
+</body>
+</html>
