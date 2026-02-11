@@ -3,128 +3,104 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>REZ OS V1.4</title>
+<title>REZ OS V2.0 MAX</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Inter}
-body{
-height:100vh;
-overflow:hidden;
-background:url("https://drive.google.com/uc?export=view&id=ID_IMAGE") center/cover no-repeat;
-color:white;
-}
-
-/* BOOT */
-#boot{
-position:fixed;inset:0;background:black;
-display:flex;flex-direction:column;
-align-items:center;justify-content:center;
-z-index:9999;color:white;
-}
-.loader{
-width:60px;height:60px;border:5px solid #333;
-border-top:5px solid #3b82f6;border-radius:50%;
-animation:spin 1s linear infinite;margin-top:20px;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter;}
+body{height:100vh;overflow:hidden;background:#0078D7;color:white;}
+/* Boot Screen */
+#boot{position:fixed;inset:0;background:black;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;}
+#boot h1{font-size:50px;margin-bottom:20px;}
+.loader{width:80px;height:80px;border:8px solid #333;border-top:8px solid #3b82f6;border-radius:50%;animation:spin 1s linear infinite;}
 @keyframes spin{100%{transform:rotate(360deg)}}
 
-/* DESKTOP */
-.desktop{position:absolute;inset:0}
+/* Lock Screen */
+#lock{position:fixed;inset:0;background:rgba(0,0,0,0.8);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:9000;}
+#lock button{padding:15px 30px;border:none;border-radius:12px;background:#2563eb;color:white;font-size:18px;cursor:pointer;}
 
-/* TASKBAR */
-.taskbar{
-position:absolute;bottom:10px;left:50%;
-transform:translateX(-50%);
-width:700px;height:60px;
-background:rgba(255,255,255,0.15);
-backdrop-filter:blur(20px);
-border-radius:20px;
-display:flex;align-items:center;
-justify-content:center;gap:25px;
-}
-.taskbar img{width:30px;cursor:pointer}
-.clock{position:absolute;right:20px;font-size:13px}
+/* Desktop */
+#desktop{position:absolute;inset:0;background-size:cover;background-position:center;overflow:hidden;}
+.icon{width:80px;text-align:center;margin:10px;cursor:pointer;display:inline-block;}
+.icon img{width:60px;}
 
-/* START */
-.start{
-position:absolute;bottom:85px;left:50%;
-transform:translateX(-50%) scale(0);
-width:500px;height:500px;
-background:rgba(20,20,20,0.95);
-border-radius:20px;padding:20px;
-transition:0.3s;overflow:auto;
-}
-.start.active{transform:translateX(-50%) scale(1)}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
-.app{text-align:center;cursor:pointer}
-.app img{width:45px}
+/* Taskbar */
+#taskbar{position:absolute;bottom:0;left:0;width:100%;height:60px;background:rgba(0,0,0,0.4);backdrop-filter:blur(10px);display:flex;align-items:center;padding:0 20px;gap:15px;}
+#taskbar img{width:35px;cursor:pointer;filter:brightness(1.2);}
+#clock{margin-left:auto;font-size:14px;text-align:right;}
 
-/* WINDOWS */
-.window{
-position:absolute;top:100px;left:200px;
-width:800px;height:500px;
-background:#111;border-radius:15px;
-display:none;flex-direction:column;
-overflow:hidden;
-}
-.header{
-height:45px;background:#222;
-display:flex;align-items:center;
-justify-content:space-between;
-padding:0 15px;cursor:move;
-}
-.controls span{margin-left:10px;cursor:pointer}
-.content{flex:1;padding:15px;overflow:auto}
+/* Start Menu */
+#start{position:absolute;bottom:60px;left:20px;width:400px;height:400px;background:rgba(20,20,20,0.95);border-radius:20px;padding:15px;display:none;overflow:auto;}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;}
+.app{text-align:center;cursor:pointer;} 
+.app img{width:50px;}
 
-button{
-padding:8px 15px;border:none;
-border-radius:8px;background:#2563eb;
-color:white;cursor:pointer;margin-top:10px;
-}
-input{padding:8px;width:100%;margin-top:10px}
+/* Windows */
+.window{position:absolute;top:100px;left:200px;width:800px;height:500px;background:#111;border-radius:15px;display:none;flex-direction:column;overflow:hidden;box-shadow:0 0 15px rgba(0,0,0,0.7);}
+.header{height:45px;background:#222;display:flex;align-items:center;justify-content:space-between;padding:0 15px;cursor:move;}
+.controls span{margin-left:10px;cursor:pointer;}
+.content{flex:1;padding:15px;overflow:auto;background:#111;color:white;}
+textarea,input{width:100%;padding:8px;margin-top:10px;border-radius:8px;border:none;background:#222;color:white;}
+
+/* Toast */
+#toast{position:absolute;bottom:80px;right:20px;background:#222;padding:15px;border-radius:12px;display:none;}
+
+/* Responsive */
+@media(max-width:900px){.window{width:95%;left:2.5%}#start{width:95%;}}
 </style>
 </head>
 <body>
 
 <!-- BOOT -->
 <div id="boot">
-<h1>REZ OS</h1>
+<h1>REZ OS V2.0 MAX</h1>
 <div class="loader"></div>
 </div>
 
-<div class="desktop">
-
-<!-- START -->
-<div class="start" id="startMenu">
-<div class="grid">
-<div class="app" onclick="openWin('browser')">
-<img src="https://cdn-icons-png.flaticon.com/512/300/300221.png"><div>Google</div>
-</div>
-<div class="app" onclick="openWin('calc')">
-<img src="https://cdn-icons-png.flaticon.com/512/992/992651.png"><div>Calculator</div>
-</div>
-<div class="app" onclick="openWin('settings')">
-<img src="https://cdn-icons-png.flaticon.com/512/3524/3524659.png"><div>Settings</div>
-</div>
-</div>
+<!-- LOCK -->
+<div id="lock">
+<h1>Welcome to REZ OS</h1>
+<button onclick="unlock()">Enter</button>
 </div>
 
-<!-- TASKBAR -->
-<div class="taskbar">
+<!-- DESKTOP -->
+<div id="desktop">
+<!-- Desktop Icons -->
+<div class="icon" onclick="openWin('files')"><img src="https://cdn-icons-png.flaticon.com/512/716/716784.png"><div>Files</div></div>
+<div class="icon" onclick="openWin('browser')"><img src="https://cdn-icons-png.flaticon.com/512/300/300221.png"><div>Google</div></div>
+<div class="icon" onclick="openWin('calc')"><img src="https://cdn-icons-png.flaticon.com/512/992/992651.png"><div>Calculator</div></div>
+<div class="icon" onclick="openWin('notes')"><img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png"><div>Notes</div></div>
+
+<!-- Taskbar -->
+<div id="taskbar">
 <img src="https://cdn-icons-png.flaticon.com/512/1828/1828859.png" onclick="toggleStart()">
-<img src="https://cdn-icons-png.flaticon.com/512/300/300221.png" onclick="openWin('browser')">
-<img src="https://cdn-icons-png.flaticon.com/512/992/992651.png" onclick="openWin('calc')">
-<div class="clock" id="clock"></div>
+<div id="clock"></div>
+</div>
+
+<!-- Start Menu -->
+<div id="start">
+<div class="grid">
+<div class="app" onclick="openWin('browser')"><img src="https://cdn-icons-png.flaticon.com/512/300/300221.png"><div>Google</div></div>
+<div class="app" onclick="openWin('files')"><img src="https://cdn-icons-png.flaticon.com/512/716/716784.png"><div>Files</div></div>
+<div class="app" onclick="openWin('calc')"><img src="https://cdn-icons-png.flaticon.com/512/992/992651.png"><div>Calculator</div></div>
+<div class="app" onclick="openWin('notes')"><img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png"><div>Notes</div></div>
+<div class="app" onclick="openWin('settings')"><img src="https://cdn-icons-png.flaticon.com/512/3524/3524659.png"><div>Settings</div></div>
+</div>
 </div>
 
 </div>
 
-<!-- GOOGLE WINDOW -->
+<!-- WINDOWS -->
+<div class="window" id="files">
+<div class="header">File Explorer
+<div class="controls"><span onclick="minimize('files')">—</span><span onclick="closeWin('files')">✕</span></div></div>
+<div class="content">
+📁 Documents<br>📁 Downloads<br>📄 rez_system.sys
+</div>
+</div>
+
 <div class="window" id="browser">
 <div class="header">Google
-<div class="controls">
-<span onclick="closeWin('browser')">✕</span>
-</div></div>
+<div class="controls"><span onclick="minimize('browser')">—</span><span onclick="closeWin('browser')">✕</span></div></div>
 <div class="content">
 <input type="text" id="searchInput" placeholder="Search on Google">
 <button onclick="searchGoogle()">Search</button>
@@ -132,104 +108,76 @@ input{padding:8px;width:100%;margin-top:10px}
 </div>
 </div>
 
-<!-- CALCULATOR -->
 <div class="window" id="calc">
 <div class="header">Calculator
-<div class="controls">
-<span onclick="closeWin('calc')">✕</span>
-</div></div>
+<div class="controls"><span onclick="closeWin('calc')">✕</span></div></div>
 <div class="content">
 <input id="calcInput" placeholder="5+5">
 <button onclick="calculate()">=</button>
 </div>
 </div>
 
-<!-- SETTINGS -->
+<div class="window" id="notes">
+<div class="header">Notes
+<div class="controls"><span onclick="closeWin('notes')">✕</span></div></div>
+<div class="content">
+<textarea id="noteArea" placeholder="Write notes..."></textarea>
+</div>
+</div>
+
 <div class="window" id="settings">
 <div class="header">Settings
-<div class="controls">
-<span onclick="closeWin('settings')">✕</span>
-</div></div>
+<div class="controls"><span onclick="closeWin('settings')">✕</span></div></div>
 <div class="content">
-<h2>System Settings</h2>
+<h2>Settings</h2>
 <button onclick="darkMode()">Toggle Dark Mode</button>
 <button onclick="changeWallpaper()">Change Wallpaper</button>
-<button onclick="resetWindows()">Reset Windows Position</button>
+<button onclick="resetWindows()">Reset Windows</button>
 </div>
 </div>
+
+<!-- TOAST -->
+<div id="toast"></div>
 
 <script>
-
 let z=1;
 
 /* Boot */
-setTimeout(()=>boot.style.display="none",2000);
+setTimeout(()=>{boot.style.display="none";lock.style.display="flex";},2000);
+function unlock(){lock.style.display="none";showToast("Welcome!");}
 
 /* Clock */
-function updateClock(){
-let d=new Date();
-clock.innerHTML=d.toLocaleTimeString()+"<br>"+d.toLocaleDateString();
-}
+function updateClock(){let d=new Date();clock.innerHTML=d.toLocaleTimeString();}
 setInterval(updateClock,1000);updateClock();
 
-/* Start */
-function toggleStart(){
-startMenu.classList.toggle("active");
-}
+/* Start Menu */
+function toggleStart(){start.style.display=start.style.display=="flex"?"none":"flex";}
 
 /* Windows */
-function openWin(id){
-let w=document.getElementById(id);
-w.style.display="flex";
-w.style.zIndex=++z;
-}
-function closeWin(id){
-document.getElementById(id).style.display="none";
-}
+function openWin(id){let w=document.getElementById(id);w.style.display="flex";w.style.zIndex=++z;}
+function closeWin(id){document.getElementById(id).style.display="none";}
+function minimize(id){document.getElementById(id).style.display="none";}
 
 /* Drag */
-document.querySelectorAll(".window").forEach(win=>{
-let header=win.querySelector(".header");
-header.onmousedown=function(e){
-win.style.zIndex=++z;
-let offsetX=e.clientX-win.offsetLeft;
-let offsetY=e.clientY-win.offsetTop;
-document.onmousemove=function(e){
-win.style.left=e.clientX-offsetX+"px";
-win.style.top=e.clientY-offsetY+"px";
-}
-document.onmouseup=function(){document.onmousemove=null}
-}
-});
+document.querySelectorAll(".window").forEach(win=>{let header=win.querySelector(".header");header.onmousedown=function(e){win.style.zIndex=++z;let offsetX=e.clientX-win.offsetLeft;let offsetY=e.clientY-win.offsetTop;document.onmousemove=function(e){win.style.left=e.clientX-offsetX+"px";win.style.top=e.clientY-offsetY+"px";};document.onmouseup=function(){document.onmousemove=null;};};});
 
-/* Google Search */
-function searchGoogle(){
-let q=document.getElementById("searchInput").value;
-document.getElementById("googleFrame").src="https://www.google.com/search?q="+q;
-}
+/* Google */
+function searchGoogle(){let q=document.getElementById("searchInput").value;document.getElementById("googleFrame").src="https://www.google.com/search?q="+q;}
 
 /* Calculator */
-function calculate(){
-let val=document.getElementById("calcInput").value;
-try{
-document.getElementById("calcInput").value=eval(val);
-}catch{alert("Error")}
-}
+function calculate(){try{document.getElementById("calcInput").value=eval(document.getElementById("calcInput").value);}catch{alert("Error");}}
+
+/* Notes */
+noteArea.value=localStorage.getItem("rez_notes")||"";
+noteArea.oninput=function(){localStorage.setItem("rez_notes",noteArea.value);}
 
 /* Settings */
-function darkMode(){
-document.body.style.filter="invert(1) hue-rotate(180deg)";
-}
-function changeWallpaper(){
-document.body.style.background="url('https://images.wallpapers.com/windows11/windows11-4k.jpg') center/cover no-repeat";
-}
-function resetWindows(){
-document.querySelectorAll(".window").forEach(w=>{
-w.style.top="100px";
-w.style.left="200px";
-});
-}
+function darkMode(){document.body.style.filter=document.body.style.filter=="invert(1) hue-rotate(180deg)"?"":"invert(1) hue-rotate(180deg)";}
+function changeWallpaper(){document.body.style.background="url('https://images.wallpapers.com/windows11/windows11-4k.jpg') center/cover no-repeat";}
+function resetWindows(){document.querySelectorAll(".window").forEach(w=>{w.style.top="100px";w.style.left="200px";});}
 
+/* Toast */
+function showToast(msg){toast.innerText=msg;toast.style.display="block";setTimeout(()=>toast.style.display="none",2000);}
 </script>
 </body>
 </html>
