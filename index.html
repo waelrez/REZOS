@@ -1,14 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>REZ OS V2.1 MAX+</title>
+<title>REZ OS V2.1 MAX</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter;}
-body{height:100vh;overflow:hidden;background:url('https://wallpaperaccess.com/full/2200932.jpg') center/cover no-repeat;color:white;}
-
+body{
+  height:100vh;
+  overflow:hidden;
+  background:url('https://drive.google.com/uc?export=view&id=5KhDy22yBgsJTnjcg') center/cover no-repeat;
+  color:white;
+  transition:0.5s;
+}
 /* Boot */
 #boot{position:fixed;inset:0;background:black;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;}
 #boot h1{font-size:50px;margin-bottom:20px;}
@@ -20,7 +25,7 @@ body{height:100vh;overflow:hidden;background:url('https://wallpaperaccess.com/fu
 #lock button{padding:15px 30px;border:none;border-radius:12px;background:#2563eb;color:white;font-size:18px;cursor:pointer;}
 
 /* Desktop */
-#desktop{position:absolute;inset:0;background-size:cover;background-position:center;overflow:hidden;}
+#desktop{position:absolute;inset:0;overflow:hidden;}
 .icon{width:80px;text-align:center;margin:10px;cursor:pointer;display:inline-block;}
 .icon img{width:60px;}
 
@@ -49,13 +54,18 @@ button{padding:8px 15px;border:none;border-radius:8px;background:#2563eb;color:w
 
 /* Toast */
 #toast{position:absolute;bottom:80px;right:20px;background:#222;padding:15px;border-radius:12px;display:none;}
+
+/* Context Menu */
+.context{position:absolute;background:#222;padding:10px;border-radius:10px;display:none;flex-direction:column;}
+.context div{padding:8px;cursor:pointer;}
+.context div:hover{background:#333;}
 </style>
 </head>
 <body>
 
 <!-- Boot -->
 <div id="boot">
-<h1>REZ OS V2.1 MAX+</h1>
+<h1>REZ OS V2.1 MAX</h1>
 <div class="loader"></div>
 </div>
 
@@ -99,6 +109,9 @@ button{padding:8px 15px;border:none;border-radius:8px;background:#2563eb;color:w
 <div id="quick">
 <div class="toggle">Volume <span>75%</span></div>
 <div class="toggle">Bluetooth <span>Off</span></div>
+<div class="toggle">WiFi <span>On</span></div>
+<div class="toggle">Battery <span>98%</span></div>
+<div class="toggle">Network <span>Connected</span></div>
 </div>
 
 </div>
@@ -165,20 +178,14 @@ button{padding:8px 15px;border:none;border-radius:8px;background:#2563eb;color:w
 </div>
 </div>
 
-<!-- Settings -->
-<div class="window" id="settings">
-<div class="header">Settings
-<div class="controls"><span onclick="closeWin('settings')">✕</span></div></div>
-<div class="content">
-<h2>Settings</h2>
-<button onclick="darkMode()">Toggle Dark Mode</button>
-<button onclick="changeWallpaper()">Change Wallpaper</button>
-<button onclick="resetWindows()">Reset Windows</button>
-</div>
-</div>
-
 <!-- Toast -->
 <div id="toast"></div>
+
+<!-- Context Menu -->
+<div class="context" id="context">
+<div onclick="alert('Refresh')">Refresh</div>
+<div onclick="toggleTheme()">Toggle Theme</div>
+</div>
 
 <script>
 let z=1;
@@ -212,17 +219,18 @@ function calculate(){try{document.getElementById("calcInput").value=eval(documen
 noteArea.value=localStorage.getItem("rez_notes")||"";
 noteArea.oninput=function(){localStorage.setItem("rez_notes",noteArea.value);}
 
-/* Settings */
-function darkMode(){document.body.style.filter=document.body.style.filter=="invert(1) hue-rotate(180deg)"?"":"invert(1) hue-rotate(180deg)";}
-function changeWallpaper(){document.body.style.background="url('https://drive.google.com/uc?export=view&id=5KhDy22yBgsJTnjcg
-') center/cover no-repeat";}
-function resetWindows(){document.querySelectorAll(".window").forEach(w=>{w.style.top="100px";w.style.left="200px";});}
-
 /* REZ App */
 function checkUpdate(){showToast("NO UPDATE NOW");}
 
 /* Toast */
 function showToast(msg){toast.innerText=msg;toast.style.display="block";setTimeout(()=>toast.style.display="none",2000);}
+
+/* Theme */
+function toggleTheme(){if(document.body.style.filter=="invert(1) hue-rotate(180deg)")document.body.style.filter="";else document.body.style.filter="invert(1) hue-rotate(180deg)";}
+
+/* Context Menu */
+desktop.addEventListener("contextmenu",function(e){e.preventDefault();context.style.display="flex";context.style.left=e.pageX+"px";context.style.top=e.pageY+"px";});
+document.addEventListener("click",()=>context.style.display="none");
 </script>
 </body>
 </html>
