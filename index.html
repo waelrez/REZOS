@@ -3,12 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>REZ OS V2.0 MAX</title>
+<title>REZ OS V2.1 MAX+</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter;}
-body{height:100vh;overflow:hidden;background:#0078D7;color:white;}
-/* Boot Screen */
+body{height:100vh;overflow:hidden;background:url('https://wallpaperaccess.com/full/2200932.jpg') center/cover no-repeat;color:white;}
+
+/* Boot */
 #boot{position:fixed;inset:0;background:black;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;}
 #boot h1{font-size:50px;margin-bottom:20px;}
 .loader{width:80px;height:80px;border:8px solid #333;border-top:8px solid #3b82f6;border-radius:50%;animation:spin 1s linear infinite;}
@@ -29,7 +30,7 @@ body{height:100vh;overflow:hidden;background:#0078D7;color:white;}
 #clock{margin-left:auto;font-size:14px;text-align:right;}
 
 /* Start Menu */
-#start{position:absolute;bottom:60px;left:20px;width:400px;height:400px;background:rgba(20,20,20,0.95);border-radius:20px;padding:15px;display:none;overflow:auto;}
+#start{position:absolute;bottom:60px;left:20px;width:450px;height:400px;background:rgba(20,20,20,0.95);border-radius:20px;padding:15px;display:none;overflow:auto;}
 .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;}
 .app{text-align:center;cursor:pointer;} 
 .app img{width:50px;}
@@ -40,35 +41,40 @@ body{height:100vh;overflow:hidden;background:#0078D7;color:white;}
 .controls span{margin-left:10px;cursor:pointer;}
 .content{flex:1;padding:15px;overflow:auto;background:#111;color:white;}
 textarea,input{width:100%;padding:8px;margin-top:10px;border-radius:8px;border:none;background:#222;color:white;}
+button{padding:8px 15px;border:none;border-radius:8px;background:#2563eb;color:white;cursor:pointer;margin-top:10px;}
+
+/* Quick Panel */
+#quick{position:absolute;right:20px;bottom:80px;width:250px;background:#222;padding:15px;border-radius:15px;display:flex;flex-direction:column;}
+.toggle{display:flex;justify-content:space-between;margin-bottom:10px;}
 
 /* Toast */
 #toast{position:absolute;bottom:80px;right:20px;background:#222;padding:15px;border-radius:12px;display:none;}
-
-/* Responsive */
-@media(max-width:900px){.window{width:95%;left:2.5%}#start{width:95%;}}
 </style>
 </head>
 <body>
 
-<!-- BOOT -->
+<!-- Boot -->
 <div id="boot">
-<h1>REZ OS V2.0 MAX</h1>
+<h1>REZ OS V2.1 MAX+</h1>
 <div class="loader"></div>
 </div>
 
-<!-- LOCK -->
+<!-- Lock -->
 <div id="lock">
 <h1>Welcome to REZ OS</h1>
 <button onclick="unlock()">Enter</button>
 </div>
 
-<!-- DESKTOP -->
+<!-- Desktop -->
 <div id="desktop">
-<!-- Desktop Icons -->
-<div class="icon" onclick="openWin('files')"><img src="https://cdn-icons-png.flaticon.com/512/716/716784.png"><div>Files</div></div>
+<!-- Icons -->
+<div class="icon" onclick="openWin('files')"><img src="https://cdn-icons-png.flaticon.com/512/716/716784.png"><div>My PC</div></div>
 <div class="icon" onclick="openWin('browser')"><img src="https://cdn-icons-png.flaticon.com/512/300/300221.png"><div>Google</div></div>
+<div class="icon" onclick="openWin('gmail')"><img src="https://cdn-icons-png.flaticon.com/512/281/281769.png"><div>Gmail</div></div>
+<div class="icon" onclick="openWin('firefox')"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111573.png"><div>Firefox</div></div>
 <div class="icon" onclick="openWin('calc')"><img src="https://cdn-icons-png.flaticon.com/512/992/992651.png"><div>Calculator</div></div>
 <div class="icon" onclick="openWin('notes')"><img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png"><div>Notes</div></div>
+<div class="icon" onclick="openWin('rezapp')"><img src="https://cdn-icons-png.flaticon.com/512/1086/1086933.png"><div>REZ</div></div>
 
 <!-- Taskbar -->
 <div id="taskbar">
@@ -79,32 +85,58 @@ textarea,input{width:100%;padding:8px;margin-top:10px;border-radius:8px;border:n
 <!-- Start Menu -->
 <div id="start">
 <div class="grid">
+<div class="app" onclick="openWin('files')"><img src="https://cdn-icons-png.flaticon.com/512/716/716784.png"><div>My PC</div></div>
 <div class="app" onclick="openWin('browser')"><img src="https://cdn-icons-png.flaticon.com/512/300/300221.png"><div>Google</div></div>
-<div class="app" onclick="openWin('files')"><img src="https://cdn-icons-png.flaticon.com/512/716/716784.png"><div>Files</div></div>
+<div class="app" onclick="openWin('gmail')"><img src="https://cdn-icons-png.flaticon.com/512/281/281769.png"><div>Gmail</div></div>
+<div class="app" onclick="openWin('firefox')"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111573.png"><div>Firefox</div></div>
 <div class="app" onclick="openWin('calc')"><img src="https://cdn-icons-png.flaticon.com/512/992/992651.png"><div>Calculator</div></div>
 <div class="app" onclick="openWin('notes')"><img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png"><div>Notes</div></div>
-<div class="app" onclick="openWin('settings')"><img src="https://cdn-icons-png.flaticon.com/512/3524/3524659.png"><div>Settings</div></div>
+<div class="app" onclick="openWin('rezapp')"><img src="https://cdn-icons-png.flaticon.com/512/1086/1086933.png"><div>REZ</div></div>
 </div>
+</div>
+
+<!-- Quick Panel -->
+<div id="quick">
+<div class="toggle">Volume <span>75%</span></div>
+<div class="toggle">Bluetooth <span>Off</span></div>
 </div>
 
 </div>
 
-<!-- WINDOWS -->
+<!-- Windows -->
 <div class="window" id="files">
-<div class="header">File Explorer
+<div class="header">My PC
 <div class="controls"><span onclick="minimize('files')">—</span><span onclick="closeWin('files')">✕</span></div></div>
 <div class="content">
-📁 Documents<br>📁 Downloads<br>📄 rez_system.sys
+<h3>Storage</h3>
+📁 Documents<br>📁 Downloads<br>📁 Pictures<br>📄 rez_system.sys<br>
+<p>Total: 500GB | Used: 120GB | Free: 380GB</p>
 </div>
 </div>
 
 <div class="window" id="browser">
 <div class="header">Google
-<div class="controls"><span onclick="minimize('browser')">—</span><span onclick="closeWin('browser')">✕</span></div></div>
+<div class="controls"><span onclick="closeWin('browser')">✕</span></div></div>
 <div class="content">
-<input type="text" id="searchInput" placeholder="Search on Google">
+<input type="text" id="searchInput" placeholder="Search Google">
 <button onclick="searchGoogle()">Search</button>
 <iframe id="googleFrame" style="width:100%;height:85%;border:none"></iframe>
+</div>
+</div>
+
+<div class="window" id="gmail">
+<div class="header">Gmail
+<div class="controls"><span onclick="closeWin('gmail')">✕</span></div></div>
+<div class="content">
+<iframe src="https://mail.google.com" style="width:100%;height:100%;border:none;"></iframe>
+</div>
+</div>
+
+<div class="window" id="firefox">
+<div class="header">Firefox
+<div class="controls"><span onclick="closeWin('firefox')">✕</span></div></div>
+<div class="content">
+<iframe src="https://www.mozilla.org/en-US/firefox/new/" style="width:100%;height:100%;border:none;"></iframe>
 </div>
 </div>
 
@@ -112,8 +144,7 @@ textarea,input{width:100%;padding:8px;margin-top:10px;border-radius:8px;border:n
 <div class="header">Calculator
 <div class="controls"><span onclick="closeWin('calc')">✕</span></div></div>
 <div class="content">
-<input id="calcInput" placeholder="5+5">
-<button onclick="calculate()">=</button>
+<input id="calcInput" placeholder="5+5"><button onclick="calculate()">=</button>
 </div>
 </div>
 
@@ -125,6 +156,16 @@ textarea,input{width:100%;padding:8px;margin-top:10px;border-radius:8px;border:n
 </div>
 </div>
 
+<div class="window" id="rezapp">
+<div class="header">REZ App
+<div class="controls"><span onclick="closeWin('rezapp')">✕</span></div></div>
+<div class="content">
+<img src="https://cdn-icons-png.flaticon.com/512/1086/1086933.png" width="80"><h3>REZ SYSTEM</h3>
+<button onclick="checkUpdate()">Check Update</button>
+</div>
+</div>
+
+<!-- Settings -->
 <div class="window" id="settings">
 <div class="header">Settings
 <div class="controls"><span onclick="closeWin('settings')">✕</span></div></div>
@@ -136,7 +177,7 @@ textarea,input{width:100%;padding:8px;margin-top:10px;border-radius:8px;border:n
 </div>
 </div>
 
-<!-- TOAST -->
+<!-- Toast -->
 <div id="toast"></div>
 
 <script>
@@ -173,8 +214,11 @@ noteArea.oninput=function(){localStorage.setItem("rez_notes",noteArea.value);}
 
 /* Settings */
 function darkMode(){document.body.style.filter=document.body.style.filter=="invert(1) hue-rotate(180deg)"?"":"invert(1) hue-rotate(180deg)";}
-function changeWallpaper(){document.body.style.background="url('https://images.wallpapers.com/windows11/windows11-4k.jpg') center/cover no-repeat";}
+function changeWallpaper(){document.body.style.background="url('https://wallpaperaccess.com/full/2200932.jpg') center/cover no-repeat";}
 function resetWindows(){document.querySelectorAll(".window").forEach(w=>{w.style.top="100px";w.style.left="200px";});}
+
+/* REZ App */
+function checkUpdate(){showToast("NO UPDATE NOW");}
 
 /* Toast */
 function showToast(msg){toast.innerText=msg;toast.style.display="block";setTimeout(()=>toast.style.display="none",2000);}
