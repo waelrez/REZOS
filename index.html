@@ -10,9 +10,8 @@
 body{
 height:100vh;
 overflow:hidden;
-background:url("https://images.wallpapers.com/windows11/windows11-4k-blue.jpg") center/cover no-repeat;
+background:url("https://drive.google.com/uc?export=view&id=ID_IMAGE") center/cover no-repeat;
 color:white;
-transition:0.3s;
 }
 
 /* BOOT */
@@ -29,22 +28,6 @@ animation:spin 1s linear infinite;margin-top:20px;
 }
 @keyframes spin{100%{transform:rotate(360deg)}}
 
-/* LOCK */
-#lock{
-position:fixed;inset:0;
-background:rgba(0,0,0,0.6);
-backdrop-filter:blur(20px);
-display:none;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-z-index:5000;
-}
-#lock button{
-padding:10px 20px;border:none;border-radius:10px;
-background:#2563eb;color:white;cursor:pointer;
-}
-
 /* DESKTOP */
 .desktop{position:absolute;inset:0}
 
@@ -60,7 +43,6 @@ display:flex;align-items:center;
 justify-content:center;gap:25px;
 }
 .taskbar img{width:30px;cursor:pointer}
-.taskbar img.active{filter:brightness(2)}
 .clock{position:absolute;right:20px;font-size:13px}
 
 /* START */
@@ -94,19 +76,12 @@ padding:0 15px;cursor:move;
 .controls span{margin-left:10px;cursor:pointer}
 .content{flex:1;padding:15px;overflow:auto}
 
-/* TOAST */
-.toast{
-position:absolute;bottom:100px;right:20px;
-background:#222;padding:15px;border-radius:10px;
-display:none;
+button{
+padding:8px 15px;border:none;
+border-radius:8px;background:#2563eb;
+color:white;cursor:pointer;margin-top:10px;
 }
-
-/* RESPONSIVE */
-@media(max-width:900px){
-.window{width:95%;left:2.5%}
-.taskbar{width:95%}
-.start{width:95%}
-}
+input{padding:8px;width:100%;margin-top:10px}
 </style>
 </head>
 <body>
@@ -114,17 +89,7 @@ display:none;
 <!-- BOOT -->
 <div id="boot">
 <h1>REZ OS</h1>
-<svg width="80" height="80" viewBox="0 0 100 100">
-<circle cx="50" cy="50" r="40" stroke="#3b82f6" stroke-width="6" fill="none"/>
-<text x="50%" y="55%" text-anchor="middle" fill="white" font-size="30">R</text>
-</svg>
 <div class="loader"></div>
-</div>
-
-<!-- LOCK -->
-<div id="lock">
-<h1>Welcome to REZ OS V1.4</h1>
-<button onclick="unlock()">Enter</button>
 </div>
 
 <div class="desktop">
@@ -132,17 +97,14 @@ display:none;
 <!-- START -->
 <div class="start" id="startMenu">
 <div class="grid">
-<div class="app" onclick="openWin('files')">
-<img src="https://cdn-icons-png.flaticon.com/512/716/716784.png"><div>Files</div>
-</div>
 <div class="app" onclick="openWin('browser')">
-<img src="https://cdn-icons-png.flaticon.com/512/732/732200.png"><div>Browser</div>
+<img src="https://cdn-icons-png.flaticon.com/512/300/300221.png"><div>Google</div>
 </div>
 <div class="app" onclick="openWin('calc')">
-<img src="https://cdn-icons-png.flaticon.com/512/992/992651.png"><div>Calc</div>
+<img src="https://cdn-icons-png.flaticon.com/512/992/992651.png"><div>Calculator</div>
 </div>
-<div class="app" onclick="openWin('notes')">
-<img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png"><div>Notes</div>
+<div class="app" onclick="openWin('settings')">
+<img src="https://cdn-icons-png.flaticon.com/512/3524/3524659.png"><div>Settings</div>
 </div>
 </div>
 </div>
@@ -150,60 +112,49 @@ display:none;
 <!-- TASKBAR -->
 <div class="taskbar">
 <img src="https://cdn-icons-png.flaticon.com/512/1828/1828859.png" onclick="toggleStart()">
-<img src="https://cdn-icons-png.flaticon.com/512/716/716784.png" onclick="openWin('files')">
-<img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" onclick="openWin('browser')">
+<img src="https://cdn-icons-png.flaticon.com/512/300/300221.png" onclick="openWin('browser')">
 <img src="https://cdn-icons-png.flaticon.com/512/992/992651.png" onclick="openWin('calc')">
 <div class="clock" id="clock"></div>
 </div>
 
-<div class="toast" id="toast">App Opened</div>
-
 </div>
 
-<!-- FILES -->
-<div class="window" id="files">
-<div class="header">File Explorer
-<div class="controls">
-<span onclick="minimize('files')">—</span>
-<span onclick="maximize('files')">⬜</span>
-<span onclick="closeWin('files')">✕</span>
-</div></div>
-<div class="content">📁 Documents<br>📁 Downloads<br>📄 rez.sys</div>
-</div>
-
-<!-- BROWSER -->
+<!-- GOOGLE WINDOW -->
 <div class="window" id="browser">
-<div class="header">Browser
+<div class="header">Google
 <div class="controls">
-<span onclick="minimize('browser')">—</span>
-<span onclick="maximize('browser')">⬜</span>
 <span onclick="closeWin('browser')">✕</span>
 </div></div>
 <div class="content">
-<iframe src="https://example.com" style="width:100%;height:100%;border:none"></iframe>
+<input type="text" id="searchInput" placeholder="Search on Google">
+<button onclick="searchGoogle()">Search</button>
+<iframe id="googleFrame" style="width:100%;height:85%;border:none"></iframe>
 </div>
 </div>
 
-<!-- CALC -->
+<!-- CALCULATOR -->
 <div class="window" id="calc">
 <div class="header">Calculator
 <div class="controls">
 <span onclick="closeWin('calc')">✕</span>
 </div></div>
 <div class="content">
-<input id="calcInput" style="width:100%;padding:10px">
+<input id="calcInput" placeholder="5+5">
 <button onclick="calculate()">=</button>
 </div>
 </div>
 
-<!-- NOTES -->
-<div class="window" id="notes">
-<div class="header">Notes
+<!-- SETTINGS -->
+<div class="window" id="settings">
+<div class="header">Settings
 <div class="controls">
-<span onclick="closeWin('notes')">✕</span>
+<span onclick="closeWin('settings')">✕</span>
 </div></div>
 <div class="content">
-<textarea id="noteArea" style="width:100%;height:100%"></textarea>
+<h2>System Settings</h2>
+<button onclick="darkMode()">Toggle Dark Mode</button>
+<button onclick="changeWallpaper()">Change Wallpaper</button>
+<button onclick="resetWindows()">Reset Windows Position</button>
 </div>
 </div>
 
@@ -211,21 +162,8 @@ display:none;
 
 let z=1;
 
-/* Boot to Lock */
-setTimeout(()=>{
-boot.style.display="none";
-lock.style.display="flex";
-},2500);
-
-function unlock(){
-lock.style.display="none";
-showToast("System Ready");
-}
-
-/* Start */
-function toggleStart(){
-startMenu.classList.toggle("active");
-}
+/* Boot */
+setTimeout(()=>boot.style.display="none",2000);
 
 /* Clock */
 function updateClock(){
@@ -234,25 +172,19 @@ clock.innerHTML=d.toLocaleTimeString()+"<br>"+d.toLocaleDateString();
 }
 setInterval(updateClock,1000);updateClock();
 
+/* Start */
+function toggleStart(){
+startMenu.classList.toggle("active");
+}
+
 /* Windows */
 function openWin(id){
 let w=document.getElementById(id);
 w.style.display="flex";
 w.style.zIndex=++z;
-showToast("Opened "+id);
 }
 function closeWin(id){
 document.getElementById(id).style.display="none";
-}
-function minimize(id){
-document.getElementById(id).style.display="none";
-}
-function maximize(id){
-let w=document.getElementById(id);
-w.style.top="0";
-w.style.left="0";
-w.style.width="100%";
-w.style.height="100%";
 }
 
 /* Drag */
@@ -270,6 +202,12 @@ document.onmouseup=function(){document.onmousemove=null}
 }
 });
 
+/* Google Search */
+function searchGoogle(){
+let q=document.getElementById("searchInput").value;
+document.getElementById("googleFrame").src="https://www.google.com/search?q="+q;
+}
+
 /* Calculator */
 function calculate(){
 let val=document.getElementById("calcInput").value;
@@ -278,17 +216,18 @@ document.getElementById("calcInput").value=eval(val);
 }catch{alert("Error")}
 }
 
-/* Notes save */
-noteArea.value=localStorage.getItem("rez_notes")||"";
-noteArea.oninput=function(){
-localStorage.setItem("rez_notes",noteArea.value);
+/* Settings */
+function darkMode(){
+document.body.style.filter="invert(1) hue-rotate(180deg)";
 }
-
-/* Toast */
-function showToast(msg){
-toast.innerText=msg;
-toast.style.display="block";
-setTimeout(()=>toast.style.display="none",2000);
+function changeWallpaper(){
+document.body.style.background="url('https://images.wallpapers.com/windows11/windows11-4k.jpg') center/cover no-repeat";
+}
+function resetWindows(){
+document.querySelectorAll(".window").forEach(w=>{
+w.style.top="100px";
+w.style.left="200px";
+});
 }
 
 </script>
